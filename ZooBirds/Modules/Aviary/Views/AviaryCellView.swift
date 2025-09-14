@@ -48,20 +48,28 @@ struct AviaryCellView: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
                         }
                         
-                        HStack(spacing: 5) {
-                            Image(.Images.Icons.size)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 8, height: 8)
-                            
-                            Text("\(aviary.size) m")
+                        HStack {
+                            Group {
+                            Text(aviary.name)
                                 .font(.system(size: 12, weight: .semibold))
                                 .foregroundStyle(.defaultWhite)
+                            
+                                HStack(spacing: 5) {
+                                    Image(.Images.Icons.size)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 8, height: 8)
+                                    
+                                    Text("\(aviary.size) m")
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundStyle(.defaultWhite)
+                                }
+                            }
+                            .frame(height: 26)
+                            .padding(.horizontal, 10)
+                            .background(.defaultLightBlue)
+                            .cornerRadius(8)
                         }
-                        .frame(height: 26)
-                        .padding(.horizontal, 10)
-                        .background(.defaultLightBlue)
-                        .cornerRadius(8)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     

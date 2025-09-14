@@ -29,7 +29,10 @@ struct HomeAddBirdView: View {
                         genderBlock
                         age
                         statusBlock
-                        aviaryBlock
+                        
+                        if !viewModel.aviaries.isEmpty {
+                            aviaryBlock
+                        }
                     }
                     .padding(.horizontal, 35)
                     .toolbar {

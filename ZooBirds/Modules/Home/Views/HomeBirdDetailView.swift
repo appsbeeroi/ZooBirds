@@ -9,7 +9,7 @@ struct HomeBirdDetailView: View {
     @State private var isShowDeleteAlert = false
     @State private var isToastVisible = false
     @State private var isShowHistory = false
-    @State private var isShowLoader = false
+    @State private var isLoading = false
     
     var body: some View {
         ZStack {
@@ -47,7 +47,7 @@ struct HomeBirdDetailView: View {
                     .zIndex(1)
             }
             
-            if isShowLoader {
+            if isLoading {
                 RoundedRectangle(cornerRadius: 20)
                     .frame(width: 60, height: 60)
                     .foregroundStyle(.defaultGray)
@@ -77,7 +77,7 @@ struct HomeBirdDetailView: View {
         VStack(spacing: 8) {
             HStack {
                 Button {
-                    isShowLoader = true
+                    isLoading = true
                     viewModel.save(bird)
                 } label: {
                     HStack(spacing: 4) {

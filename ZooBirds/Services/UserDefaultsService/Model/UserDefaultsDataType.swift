@@ -3,6 +3,9 @@ import Foundation
 enum UserDefaultsDataType {
     case bird
     case aviary
+    case inspection
+    case vaccination
+    case diets
     
     var key: String {
         switch self {
@@ -10,6 +13,12 @@ enum UserDefaultsDataType {
                 "Bird"
             case .aviary:
                 "Aviary"
+            case .inspection:
+                "Inspection"
+            case .vaccination:
+                "Vaccination"
+            case .diets:
+                "Diets"
         }
     }
 }

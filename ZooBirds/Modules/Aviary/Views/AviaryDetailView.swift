@@ -11,6 +11,7 @@ struct AviaryDetailView: View {
     @State private var isShowDeleteAlert = false
     @State private var isToastVisible = false
     @State private var isShowCareTasksView = false
+    @State private var isShowHistoryView = false
     
     var body: some View {
         ZStack {
@@ -43,6 +44,9 @@ struct AviaryDetailView: View {
             CareTasksView(aviary: aviary) { aviary in
                 self.aviary = aviary
             }
+        }
+        .navigationDestination(isPresented: $isShowHistoryView) {
+            AviaryHistoryView()
         }
         .alert("", isPresented: $isShowDeleteAlert) {
             Button("Delete", role: .destructive) {
@@ -212,7 +216,7 @@ struct AviaryDetailView: View {
                         .foregroundStyle(.defaultWhite)
                     
                     Button {
-                        //
+                        isShowHistoryView.toggle()
                     } label: {
                         Text("Open")
                             .frame(width: 74, height: 38)

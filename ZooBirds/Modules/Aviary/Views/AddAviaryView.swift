@@ -28,6 +28,16 @@ struct AddAviaryView: View {
                         speciesBlock
                     }
                     .padding(.horizontal, 35)
+                    .toolbar {
+                        ToolbarItem(placement: .keyboard) {
+                            HStack {
+                                Button("Done") {
+                                    isFocused = false
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                    }
                 }
             }
         }
@@ -124,7 +134,7 @@ struct AddAviaryView: View {
                 .font(.system(size: 14, weight: .bold))
                 .foregroundStyle(.defaultGray)
             
-            BaseTextField(text: $aviary.size, isFocused: $isFocused)
+            BaseTextField(text: $aviary.size, keyboardType: .numberPad, isFocused: $isFocused)
         }
     }
     
@@ -148,7 +158,7 @@ struct AddAviaryView: View {
                 .disabled(aviary.species.count > 0 && aviary.species.last == "")
             }
             
-            VStack(spacing: 5) {
+            LazyVStack(spacing: 5) {
                 ForEach(Array(aviary.species.enumerated()), id: \.offset) { index, specie in
                     BaseTextField(text: $aviary.species[index], isFocused: $isFocused)
                 }

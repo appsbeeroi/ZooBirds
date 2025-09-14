@@ -1,14 +1,16 @@
 import SwiftUI
 
-struct AviaryAddCareView: View {
-    
+struct AddDietView: View {
+
     @Environment(\.dismiss) var dismiss
 
-    @State var care: AviaryCare
+    @EnvironmentObject var viewModel: HealthViewModel
     
-    let saveAction: (AviaryCare) -> Void 
+    @State var diet: Diet
     
-    @FocusState private var isFocused: Bool
+    let birdIDs: [UUID]
+    
+    @FocusState var isFocused: Bool
     
     var body: some View {
         ZStack {
@@ -20,21 +22,39 @@ struct AviaryAddCareView: View {
                 
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 16) {
+                        image
                         datePicker
-                        careType
-                        frequancyType
-                        note
+                        foodType
+                        quantity
+                        notes
                     }
+                    .padding(.top, 35)
                     .padding(.horizontal, 35)
+                    .toolbar {
+                        ToolbarItem(placement: .keyboard) {
+                            HStack {
+                                Button("Done") {
+                                    isFocused = false
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                    }
+                    
+                    Color.clear
+                        .frame(height: 30)
                 }
             }
         }
         .navigationBarBackButtonHidden()
+        .onAppear {
+            diet.birdIDs = birdIDs
+        }
     }
     
     private var navigation: some View {
         ZStack {
-            Text("Add aviary")
+            Text("Add ration")
                 .frame(maxWidth: .infinity)
                 .font(.system(size: 17, weight: .heavy))
                 .foregroundStyle(.defaultWhite)
@@ -57,13 +77,12 @@ struct AviaryAddCareView: View {
                     Spacer()
                     
                     Button {
-                        saveAction(care)
-                        dismiss()
+                        viewModel.save(diet)
                     } label: {
                         Text("Done")
-                            .foregroundStyle(.defaultYellow.opacity(care.isLock ? 0.5 : 1))
+                            .foregroundStyle(.defaultYellow.opacity(diet.isLock ? 0.5 : 1))
                     }
-                    .disabled(care.isLock)
+                    .disabled(diet.isLock)
                 }
                 .padding(.horizontal, 20)
                 .font(.system(size: 17, weight: .heavy))
@@ -77,77 +96,61 @@ struct AviaryAddCareView: View {
         }
     }
     
+    private var image: some View {
+        Image(.Images.Health.diet)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 200, height: 200)
+    }
+    
     private var datePicker: some View {
         VStack(spacing: 2) {
-            Text("Time")
+            Text("Feeding Time")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundStyle(.defaultGray)
             
-            DatePicker("", selection: $care.time, displayedComponents: [.hourAndMinute])
+            DatePicker("", selection: $diet.date, displayedComponents: [.hourAndMinute])
                 .labelsHidden()
                 .datePickerStyle(.wheel)
                 .colorScheme(.dark)
         }
     }
     
-    private var careType: some View {
-        LazyVStack(spacing: 5) {
-            Text("Type of care")
+    private var foodType: some View {
+        VStack(spacing: 2) {
+            Text("Food type")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundStyle(.defaultGray)
             
-            ForEach(CareType.allCases) { type in
-                AviaryAddCareTypeCellView(type: type, selectedType: $care.type)
-            }
+            BaseTextField(text: $diet.foodType, isFocused: $isFocused)
         }
     }
     
-    private var frequancyType: some View {
-        VStack(spacing: 5) {
-            Text("Frequancy")
+    private var quantity: some View {
+        VStack(spacing: 2) {
+            Text("Quantity")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundStyle(.defaultGray)
             
-            HStack(spacing: 4) {
-                AviaryAddCareFrequancyCellView(type: .daily, selectedType: $care.frequancy)
-                AviaryAddCareFrequancyCellView(type: .every2days, selectedType: $care.frequancy)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
-            HStack(spacing: 4) {
-                AviaryAddCareFrequancyCellView(type: .every3days, selectedType: $care.frequancy)
-                AviaryAddCareFrequancyCellView(type: .twiceAWeek, selectedType: $care.frequancy)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
-            HStack(spacing: 4) {
-                AviaryAddCareFrequancyCellView(type: .weekly, selectedType: $care.frequancy)
-                AviaryAddCareFrequancyCellView(type: .every10days, selectedType: $care.frequancy)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            
-            HStack(spacing: 4) {
-                AviaryAddCareFrequancyCellView(type: .asNeeded, selectedType: $care.frequancy)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            BaseTextField(text: $diet.quontity, keyboardType: .numberPad, isFocused: $isFocused)
         }
     }
     
-    private var note: some View {
-        VStack(spacing: 5) {
-            Text("Note(optional)")
+    private var notes: some View {
+        VStack(spacing: 2) {
+            Text("Notes")
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundStyle(.defaultGray)
             
-            BaseTextField(text: $care.note, isFocused: $isFocused)
+            BaseTextField(text: $diet.notes, isFocused: $isFocused)
         }
     }
 }
 
 #Preview {
-    AviaryAddCareView(care: AviaryCare(isMock: true)) { _ in }
+    AddDietView(diet: Diet(isMock: true), birdIDs: [])
 }

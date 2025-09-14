@@ -157,6 +157,9 @@ struct HomeView: View {
             }
             .padding(.top, 30)
             .padding(.horizontal, 35)
+            
+            Color.clear
+                .frame(height: 100)
         }
     }
 }

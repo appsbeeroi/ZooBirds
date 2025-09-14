@@ -12,9 +12,16 @@ struct SplashScreen: View {
             VStack {
                 ProgressView()
                     .tint(.defaultYellow)
-                    .scaleEffect(5)
+                    .scaleEffect(4)
                 
                 StrokeText("Zoo\nBirds", fontSize: 78)
+            }
+        }
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                withAnimation {
+                    isMainFlow = true
+                }
             }
         }
     }
