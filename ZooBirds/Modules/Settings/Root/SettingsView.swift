@@ -10,7 +10,7 @@ struct SettingsView: View {
     @State private var isNotificationEnable = false
     @State private var isShowNotificationAlert = false
     @State private var isShareApp = false
-    #warning("ВСТАВИТЬ ID")
+    
     var body: some View {
         ZStack {
             Color.defaultDarkBlue
@@ -36,7 +36,7 @@ struct SettingsView: View {
             isNotificationEnable = isNotificationSetup
         }
         .sheet(isPresented: $isShareApp) {
-            ActivityView(activityItems: ["https://apps.apple.com/app/idYOUR_APP_ID"])
+            ActivityView(activityItems: ["https://apps.apple.com/app/id6752563353"])
         }
         .onChange(of: isNotificationEnable) { isEnable in
             if isEnable {

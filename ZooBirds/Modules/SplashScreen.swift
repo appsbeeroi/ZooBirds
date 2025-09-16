@@ -14,7 +14,7 @@ struct SplashScreen: View {
                     .tint(.defaultYellow)
                     .scaleEffect(4)
                 
-                StrokeText("Zoo\nBirds", fontSize: 78)
+                StrokeText("Birds of\nZoo", fontSize: 78)
             }
         }
         .onAppear {
